@@ -6,7 +6,7 @@ import time
 app = Flask(__name__)
 CORS(app)
 
-current_price = 90.0
+current_price = 81.0
 
 
 @app.route('/market-data', methods=['GET'])
