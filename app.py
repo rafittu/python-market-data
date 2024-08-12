@@ -6,18 +6,35 @@ import time
 app = Flask(__name__)
 CORS(app)
 
-current_price = 81.0
+prices = {
+    "AZUL4F": 81.0,
+    "PETR4": 27.5,
+}
+
+historical_data = {
+    "AZUL4F": [],
+    "PETR4": []
+}
 
 
 @app.route('/market-data', methods=['GET'])
-def get_market_data():
-    global current_price
+def get_market_data(symbol):
+    global prices
+
+    if symbol not in prices:
+        return jsonify({"error": "Invalid symbol"}), 404
 
     variation = random.uniform(-1, 1)
-    current_price = round(current_price + variation, 2)
+    prices[symbol] = round(prices[symbol] + variation, 2)
     timestamp = int(time.time() * 1000)
 
-    return jsonify({'price': current_price, 'timestamp': timestamp})
+    historical_data[symbol].append(
+        {'price': prices[symbol], 'timestamp': timestamp}
+        )
+
+    return jsonify(
+        {'symbol': symbol, 'price': prices[symbol], 'timestamp': timestamp}
+        )
 
 
 if __name__ == '__main__':
