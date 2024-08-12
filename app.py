@@ -17,7 +17,7 @@ historical_data = {
 }
 
 
-@app.route('/market-data', methods=['GET'])
+@app.route('/market-data/<symbol>', methods=['GET'])
 def get_market_data(symbol):
     global prices
 
@@ -35,6 +35,14 @@ def get_market_data(symbol):
     return jsonify(
         {'symbol': symbol, 'price': prices[symbol], 'timestamp': timestamp}
         )
+
+
+@app.route('/historical-data/<symbol>', methods=['GET'])
+def get_historical_data(symbol):
+    if symbol not in historical_data:
+        return jsonify({"error": "Invalid symbol"}), 404
+
+    return jsonify(historical_data[symbol])
 
 
 if __name__ == '__main__':
