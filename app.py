@@ -26,7 +26,7 @@ def generate_market_data(price):
     return bid, ask, spread, volume
 
 
-@app.route('/market-data/<symbol>', methods=['GET'])
+@app.route('/metatrader5/market-data/<symbol>', methods=['GET'])
 def get_market_data(symbol):
     global prices
 
@@ -62,7 +62,7 @@ def get_market_data(symbol):
     })
 
 
-@app.route('/metatrader5/<symbol>', methods=['GET'])
+@app.route('/metatrader5/historical-data/<symbol>', methods=['GET'])
 def get_historical_data(symbol):
     if symbol not in historical_data:
         return jsonify({"error": "Invalid symbol"}), 404
